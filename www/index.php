@@ -52,6 +52,8 @@ and open the template in the editor.
         
         pruebas_arrays();
         
+        pruebas_postgresql();
+        
         echo '<br><h3>Llamada a phpinfo():</h3>';
         phpinfo();       
         ?>

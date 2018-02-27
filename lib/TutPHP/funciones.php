@@ -48,8 +48,44 @@ function pruebas_arrays() {
 }
 
 function pruebas_postgresql() {
+// http://php.net/manual/es/book.pgsql.php
     echo '<h3>Pruebas con PostgreSql:</h3>';
-    
-    
+
+     // Conectando y seleccionado la base de datos  
+    $dbconn = pg_connect("host=localhost dbname=customerdb user=postgres password=verde")
+        or die('No se ha podido conectar: ' . pg_last_error());
+
+    // Realizando una consulta SQL
+    $query = 'SELECT * FROM cb_country';
+    $result = pg_query($query) or die('La consulta fallo: ' . pg_last_error());
+
+    // Imprimiendo los resultados en HTML
+    echo "<table>\n";
+    // Nombres de las columnas:
+    $num_cols = pg_num_fields($result);
+    $col_num = 0;
+    echo "\t<tr>\n";
+    // Aqusest bucle funciona pero dona el warning: PHP Warning:  pg_field_name(): Bad field offset specified
+    // while ($col_name = pg_field_name($result, $col_num++)) { 
+    while ($col_num < $num_cols) {
+        $col_name = pg_field_name($result, $col_num++);
+        echo "\t\t<th>$col_name</th>\n";   
+    }
+    echo "\t</tr>\n";
+    // Valores de las columnas    
+    while ($line = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+        echo "\t<tr>\n";
+        foreach ($line as $col_value) {
+            echo "\t\t<td>$col_value</td>\n";
+        }
+        echo "\t</tr>\n";
+    }
+    echo "</table>\n";
+
+    // Liberando el conjunto de resultados
+    pg_free_result($result);
+
+    // Cerrando la conexión
+    pg_close($dbconn);    
 }
 ?>

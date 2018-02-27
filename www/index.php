@@ -5,7 +5,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <?php
-    include('../lib/TutPHP/funciones.php');
+    include('../.inc/TutPHP/funciones.php');
 ?>
 <html>
     <?php

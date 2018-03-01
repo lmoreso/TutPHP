@@ -47,16 +47,32 @@ function pruebas_arrays() {
    
 }
 
-function pruebas_postgresql() {
+function getConfigDb () {
+    echo '<h3>Leyendo Configuración:</h3>';
+
+    $config = new Config();
+    $postgr = $config->getConfig("db");
+    echo '<b>[db]</b><br>';
+    foreach ($postgr as $indice=>$actual)
+        echo $indice . " = " . $actual . "<br>";
+       
+    return $postgr;
+}
+
+function pruebas_postgresql($configdb) {
 // http://php.net/manual/es/book.pgsql.php
     echo '<h3>Pruebas con PostgreSql:</h3>';
-
+    $dsn = 'host=' . $configdb['host'] . ' dbname=' . $configdb['dbname']
+         . ' user=' . $configdb['user'] . ' password=' . $configdb['password'];
+    $table = $configdb['table'];
+    echo 'Dsn: ' . $dsn . '<br>';
+    echo 'Tabla: ' . $table . '<br>';
      // Conectando y seleccionado la base de datos  
-    $dbconn = pg_connect("host=localhost dbname=customerdb user=postgres password=verde")
+    $dbconn = pg_connect($dsn)
         or die('No se ha podido conectar: ' . pg_last_error());
 
     // Realizando una consulta SQL
-    $query = 'SELECT * FROM cb_country';
+    $query = 'SELECT * FROM ' . $table;
     $result = pg_query($query) or die('La consulta fallo: ' . pg_last_error());
 
     // Imprimiendo los resultados en HTML

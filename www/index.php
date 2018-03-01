@@ -5,8 +5,10 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <?php
-    include('../.inc/TutPHP/funciones.php');
+include('../.inc/TutPHP/config.php');    
+include('../.inc/TutPHP/funciones.php');
 ?>
+
 <html>
     <?php
         hacer_encabezado("Tutorial PHP");
@@ -51,8 +53,8 @@ and open the template in the editor.
         ';        
         
         pruebas_arrays();
-        
-        pruebas_postgresql();
+     
+        pruebas_postgresql(getConfigDb());
         
         echo '<br><h3>Llamada a phpinfo():</h3>';
         phpinfo();       
